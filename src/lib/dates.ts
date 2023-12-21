@@ -6,7 +6,7 @@ export const toRelativeDate = (date) => {
   const now = new Date();
 
   // Calculate the relative distance in words
-  const relativeDate = formatDistance(date, now, { addSuffix: true });
+  const relativeDate = formatDistance(date, now, { addSuffix: false });
 
   return relativeDate;
 };

@@ -1,15 +1,9 @@
 import { app, BrowserWindow, ipcMain, shell } from "electron";
 import path from "path";
 import Store from "electron-store";
+import { openFileDialog, searchFile } from "./lib/filesystem";
 
 const store = new Store();
-
-import {
-  assembleThread,
-  openFileDialog,
-  readConversations,
-  searchFile,
-} from "./lib/filesystem";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -17,7 +11,6 @@ if (require("electron-squirrel-startup")) {
 }
 
 const createWindow = () => {
-  // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 1300,
     height: 900,
@@ -33,7 +26,7 @@ const createWindow = () => {
     titleBarStyle: "hidden",
   });
 
-  // and load the index.html of the app.
+  // load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
   } else {
@@ -42,7 +35,6 @@ const createWindow = () => {
     );
   }
 
-  // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 };
 
@@ -73,10 +65,10 @@ app.on("activate", () => {
 
 let filePath = "";
 
+// clear the stored file path since we can't do it in the ui yet
 // store.set("conversationsFilePath", null);
 
 ipcMain.on("load-file", async (event) => {
-  console.log("event", event);
   const storedFilePath = store.get("conversationsFilePath") as string;
   if (!storedFilePath) {
     const fileResponse = await openFileDialog();
@@ -100,7 +92,6 @@ ipcMain.on("search-file", async (event, searchTerm) => {
     const scoreB = b.score;
     return scoreA - scoreB; // For ascending order
   });
-  // event.reply("search-results", sortedResults);
   event.reply("search-results", searchResults);
 });
 
