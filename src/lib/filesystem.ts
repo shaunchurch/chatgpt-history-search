@@ -1,4 +1,4 @@
-import { Conversation } from "@/types/Conversation";
+import { Conversation } from "../types/Conversation";
 import { dialog } from "electron";
 import fs from "fs";
 import Fuse from "fuse.js";

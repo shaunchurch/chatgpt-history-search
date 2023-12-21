@@ -1,26 +1,29 @@
-import { toRelativeDate } from "@/lib/dates";
+import { toRelativeDate } from "../lib/dates";
 import React, { useEffect, useRef, useState } from "react";
 
 export function SearchForm() {
   const inputRef = useRef(null);
   const [conversations, setConversations] = useState([]);
 
-  function handleSearchSubmit(e) {
+  function handleSearchSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const query = inputRef.current.value;
     console.log("searching", query);
     window.electron.sendMessage("search-file", query);
   }
 
-  function handleOpenUrl(url) {
+  function handleOpenUrl(url: string) {
     window.electron.sendMessage("open-external", url);
   }
 
   useEffect(() => {
-    window.electron.receiveMessage("search-results", (searchResults) => {
-      console.log("search results", searchResults);
-      setConversations(searchResults);
-    });
+    window.electron.receiveMessage(
+      "search-results",
+      (searchResults: unknown[]) => {
+        console.log("search results", searchResults);
+        setConversations(searchResults);
+      }
+    );
   }, []);
 
   return (
@@ -58,7 +61,7 @@ export function SearchForm() {
                 {100 - conversation.score.toFixed(2) * 100}%
               </span>
               <time className="text-zinc-700">
-                {toRelativeDate(conversation.item.create_time * 1000)}
+                {toRelativeDate(new Date(conversation.item.create_time * 1000))}
               </time>
             </div>
           </div>
