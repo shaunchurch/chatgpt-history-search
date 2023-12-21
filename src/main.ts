@@ -1,7 +1,11 @@
 import { app, BrowserWindow, ipcMain, shell } from "electron";
 import path from "path";
 import Store from "electron-store";
-import { openFileDialog, searchFile } from "./lib/filesystem";
+import {
+  openFileDialog,
+  readConversations,
+  searchAndProvideContext,
+} from "./lib/filesystem";
 
 const store = new Store();
 
@@ -83,6 +87,11 @@ ipcMain.on("open-external", (event, url) => {
 });
 
 ipcMain.on("search-file", async (event, searchTerm) => {
-  const searchResults = searchFile(filePath, searchTerm);
-  event.reply("search-results", searchResults);
+  const conversations = readConversations(filePath);
+  const contextualResults = searchAndProvideContext(
+    filePath,
+    conversations,
+    searchTerm
+  );
+  event.reply("search-results", contextualResults);
 });

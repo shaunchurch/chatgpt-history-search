@@ -1,5 +1,5 @@
-import { toRelativeDate } from "../lib/dates";
 import React, { useEffect, useRef, useState } from "react";
+import { SearchResults } from "./SearchResults";
 
 export function SearchForm() {
   const inputRef = useRef(null);
@@ -10,10 +10,6 @@ export function SearchForm() {
     const query = inputRef.current.value;
     console.log("searching", query);
     window.electron.sendMessage("search-file", query);
-  }
-
-  function handleOpenUrl(url: string) {
-    window.electron.sendMessage("open-external", url);
   }
 
   useEffect(() => {
@@ -40,33 +36,8 @@ export function SearchForm() {
           Search
         </button>
       </form>
-      <div>
-        {conversations.map((conversation) => (
-          <div
-            key={conversation.refIndex}
-            className="flex px-2 py-2 border-b border-zinc-800 "
-          >
-            <button
-              onClick={() =>
-                handleOpenUrl(
-                  `https://chat.openai.com/c/${conversation.item.id}`
-                )
-              }
-            >
-              {conversation.item.title}
-            </button>
 
-            <div className="ml-auto flex space-x-4">
-              <span className="text-zinc-500">
-                {100 - conversation.score.toFixed(2) * 100}%
-              </span>
-              <time className="text-zinc-700">
-                {toRelativeDate(new Date(conversation.item.create_time * 1000))}
-              </time>
-            </div>
-          </div>
-        ))}
-      </div>
+      <SearchResults results={conversations} />
     </>
   );
 }
