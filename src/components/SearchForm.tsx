@@ -1,3 +1,4 @@
+import { toRelativeDate } from "@/lib/dates";
 import React, { useEffect, useRef, useState } from "react";
 
 export function SearchForm() {
@@ -39,7 +40,10 @@ export function SearchForm() {
       </form>
       <div>
         {conversations.map((conversation) => (
-          <div key={conversation.refIndex} className="flex px-2 py-1">
+          <div
+            key={conversation.refIndex}
+            className="flex px-2 py-2 border-b border-zinc-800 "
+          >
             <button
               onClick={() =>
                 handleOpenUrl(
@@ -49,11 +53,15 @@ export function SearchForm() {
             >
               {conversation.item.title}
             </button>
-            <time className="ml-auto">
-              {new Date(
-                conversation.item.create_time * 1000
-              ).toLocaleDateString()}
-            </time>
+
+            <div className="ml-auto flex space-x-4">
+              <span className="text-zinc-500">
+                {100 - conversation.score.toFixed(2) * 100}%
+              </span>
+              <time className="text-zinc-700">
+                {toRelativeDate(conversation.item.create_time * 1000)}
+              </time>
+            </div>
           </div>
         ))}
       </div>
