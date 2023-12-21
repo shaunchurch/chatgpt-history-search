@@ -19,11 +19,18 @@ if (require("electron-squirrel-startup")) {
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1300,
+    height: 900,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
+    frame: false,
+    titleBarOverlay: {
+      color: "#000000",
+      symbolColor: "#ffffff",
+    },
+    darkTheme: true,
+    titleBarStyle: "hidden",
   });
 
   // and load the index.html of the app.
@@ -82,13 +89,19 @@ ipcMain.on("load-file", async (event) => {
 
 ipcMain.on("search-file", async (event, searchTerm) => {
   const searchResults = searchFile(filePath, searchTerm);
-  const sortedResults = searchResults.sort((a, b) => {
+  const sortedByCreatedAt = searchResults.sort((a, b) => {
     const dateA = a.item.create_time;
     const dateB = b.item.create_time;
     console.log("Sorting", b.item);
     return dateB - dateA; // For ascending order
   });
-  event.reply("search-results", sortedResults);
+  const sortedByMatch = searchResults.sort((a, b) => {
+    const scoreA = a.score;
+    const scoreB = b.score;
+    return scoreA - scoreB; // For ascending order
+  });
+  // event.reply("search-results", sortedResults);
+  event.reply("search-results", searchResults);
 });
 
 ipcMain.on("read-conversation", async (event) => {
