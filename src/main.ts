@@ -1,6 +1,15 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, shell } from "electron";
 import path from "path";
-import { openFileDialog, searchFile } from "./lib/filesystem";
+import Store from "electron-store";
+
+const store = new Store();
+
+import {
+  assembleThread,
+  openFileDialog,
+  readConversations,
+  searchFile,
+} from "./lib/filesystem";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -55,13 +64,47 @@ app.on("activate", () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 
+let filePath = "";
+
+// store.set("conversationsFilePath", null);
+
 ipcMain.on("load-file", async (event) => {
-  const fileResponse = await openFileDialog();
-  const filepath = fileResponse.filePaths[0];
+  console.log("event", event);
+  const storedFilePath = store.get("conversationsFilePath") as string;
+  if (!storedFilePath) {
+    const fileResponse = await openFileDialog();
+    filePath = fileResponse.filePaths[0];
+    store.set("conversationsFilePath", filePath);
+  } else {
+    filePath = storedFilePath;
+  }
+});
 
-  const searchResults = searchFile(filepath, "test");
+ipcMain.on("search-file", async (event, searchTerm) => {
+  const searchResults = searchFile(filePath, searchTerm);
+  const sortedResults = searchResults.sort((a, b) => {
+    const dateA = a.item.create_time;
+    const dateB = b.item.create_time;
+    console.log("Sorting", b.item);
+    return dateB - dateA; // For ascending order
+  });
+  event.reply("search-results", sortedResults);
+});
 
-  console.log("searchResults", searchResults);
+ipcMain.on("read-conversation", async (event) => {
+  // const conversations = readConversations(filepath);
+  // const thisThread = conversations.find(
+  //   (c) => c.id === searchResults[0].item.id
+  // );
+  // const assembledThread = assembleThread(thisThread);
+  // assembledThread.forEach((node) => {
+  //   console.log(node.message?.content.parts);
+  // });
+  // console.log("searchResults", searchResults.slice(0, 5));
   // event.reply("file-loaded", fileResponse);
   // console.log("fileres", fileResponse);
+});
+
+ipcMain.on("open-external", (event, url) => {
+  shell.openExternal(url);
 });
