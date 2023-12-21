@@ -7,7 +7,7 @@ export async function openFileDialog() {
     });
 
     if (!result.canceled) {
-      console.log(result.filePaths); // Send these back to the renderer if needed
+      // console.log(result.filePaths); // Send these back to the renderer if needed
       // event.reply("selected-directory", result.filePaths);
       return result;
     } else {
@@ -16,4 +16,8 @@ export async function openFileDialog() {
   } catch (err) {
     console.error(err);
   }
+}
+
+export async function searchFile(filePath: string, searchTerm: string) {
+  return [];
 }

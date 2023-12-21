@@ -1,5 +1,10 @@
 import React from "react";
+import { LoadButton } from "./components/LoadButton";
 
 export function App() {
-  return <div>App</div>;
+  return (
+    <div className="">
+      <LoadButton />
+    </div>
+  );
 }

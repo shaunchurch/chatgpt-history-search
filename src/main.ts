@@ -1,6 +1,6 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
-import { openFileDialog } from "./lib/filesystem";
+import { openFileDialog, searchFile } from "./lib/filesystem";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -27,7 +27,7 @@ const createWindow = () => {
   }
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -55,7 +55,13 @@ app.on("activate", () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 
-app.on("open-file-dialog", async (event) => {
+ipcMain.on("load-file", async (event) => {
   const fileResponse = await openFileDialog();
-  console.log("fileres", fileResponse);
+  const filepath = fileResponse.filePaths[0];
+
+  const searchResults = searchFile(filepath, "test");
+
+  console.log("searchResults", searchResults);
+  // event.reply("file-loaded", fileResponse);
+  // console.log("fileres", fileResponse);
 });
