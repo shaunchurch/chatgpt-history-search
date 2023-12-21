@@ -1,17 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 export function LoadButton() {
   function handleLoadButtonClick() {
     window.electron.sendMessage("load-file");
-    // window.electronAPI.sendMessage("toMain", { data: "Your Message" });
   }
-
-  useEffect(() => {
-    window.electron.receiveMessage("search-results", (searchResults) => {
-      console.log("search results", searchResults);
-      // setArticles(articles);
-    });
-  }, []);
 
   return (
     <button

@@ -20,7 +20,6 @@ export function SearchForm() {
     window.electron.receiveMessage("search-results", (searchResults) => {
       console.log("search results", searchResults);
       setConversations(searchResults);
-      // setArticles(articles);
     });
   }, []);
 
