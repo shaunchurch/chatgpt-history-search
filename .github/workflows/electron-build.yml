@@ -1,0 +1,31 @@
+name: Electron Forge Multi-OS Build
+
+on:
+  push:
+    branches: [main] # Triggers the workflow on push events to the main branch
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }} # Uses the OS specified in the matrix
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest] # List of OSes to build on
+        node-version: ["14"] # You can also matrix Node versions if needed
+
+    steps:
+      - uses: actions/checkout@v2 # Checks-out your repository
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the Electron app
+        run: npm run make # Replace with your build command
+
+
+    # Additional steps for each OS can be added here.
+    # For example, code signing for macOS or packaging specifics for Windows and Linux.
