@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest] # List of OSes to build on
-        node-version: ["14"] # You can also matrix Node versions if needed
+        node-version: ["18"] # You can also matrix Node versions if needed
 
     steps:
       - uses: actions/checkout@v2 # Checks-out your repository
