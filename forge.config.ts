@@ -17,6 +17,18 @@ const config: ForgeConfig = {
     new MakerRpm({}),
     new MakerDeb({}),
   ],
+  publishers: [
+    {
+      name: "@electron-forge/publisher-github",
+      config: {
+        repository: {
+          owner: "shaunchurch",
+          name: "chatgpt-history-search",
+        },
+        authToken: process.env.GH_TOKEN, // Use the secret token
+      },
+    },
+  ],
   plugins: [
     new VitePlugin({
       // `build` can specify multiple entry builds, which can be Main process, Preload scripts, Worker process, etc.

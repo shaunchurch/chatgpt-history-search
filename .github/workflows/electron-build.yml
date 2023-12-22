@@ -26,6 +26,10 @@ jobs:
       - name: Build the Electron app
         run: npm run make # Replace with your build command
 
+      - name: Publish Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }} # This sets the environment variable for the step
+        run: npm run publish
 
     # Additional steps for each OS can be added here.
     # For example, code signing for macOS or packaging specifics for Windows and Linux.
