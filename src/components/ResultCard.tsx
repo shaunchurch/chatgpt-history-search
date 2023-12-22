@@ -29,7 +29,7 @@ export function ResultCard({ result }: ResultProps) {
   }
 
   return (
-    <div className="my-4 px-4 rounded shadow-md tabular-nums">
+    <div className="my-0 py-4 px-4 shadow-md tabular-nums border-t border-zinc-800">
       <header className="flex">
         <button
           className="text-xl font-semibold"
@@ -39,48 +39,34 @@ export function ResultCard({ result }: ResultProps) {
         >
           {result.conversationTitle}
         </button>
-
-        <div className="ml-auto">
-          <span className="text-sm text-gray-500 ml-2">
-            {result.contextualItems.length} messages
-          </span>
-          {/* how long ago? */}
-          <span className="text-sm text-gray-500 ml-2">
-            {result.contextualItems[0].item.createTime
-              ? toRelativeDate(
-                  new Date(result.contextualItems[0].item.createTime * 1000)
-                )
-              : null}
-          </span>
-        </div>
       </header>
+      <div className="font-semibold ">
+        <span className="text-sm text-zinc-400">
+          {result.contextualItems[0].item.createTime
+            ? toRelativeDate(
+                new Date(result.contextualItems[0].item.createTime * 1000)
+              )
+            : null}
+        </span>
+        <span className="text-sm text-zinc-500 ml-2">
+          {result.contextualItems.length} messages
+        </span>
+      </div>
 
       {result.contextualItems
         .filter((contextualItem) => contextualItem.item.messageText)
         .slice(0, 3)
         .map((contextualItem, index) => (
-          <div key={index} className="mt-0">
+          <div key={index} className="mt-0 text-sm">
             <div className="ml-auto flex space-x-2">
-              <span className="text-zinc-500">
+              <span className="text-zinc-700">
                 {(
                   100 -
                   parseFloat(contextualItem.score.toFixed(3)) * 100
                 ).toFixed(0)}
                 %
               </span>
-              {/* <time
-                className="text-zinc-700 w-28"
-                title={new Date(
-                  contextualItem.item.createTime * 1000
-                ).toLocaleDateString()}
-              >
-                {contextualItem.item.createTime
-                  ? toRelativeDate(
-                      new Date(contextualItem.item.createTime * 1000)
-                    )
-                  : null}{" "}
-              </time> */}
-              <span className="text-zinc-400">
+              <span className="text-zinc-400 break-words">
                 {contextualItem.item.messageText.slice(0, 140) || ""}...
               </span>
             </div>
