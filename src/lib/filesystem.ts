@@ -1,7 +1,7 @@
 import { Conversation } from "../types/Conversation";
 import { dialog } from "electron";
 import fs from "fs";
-import Fuse from "fuse.js";
+import Fuse, { FuseResultMatch } from "fuse.js";
 import { SearchableMessage, flattenConversations } from "./flattenConversation";
 
 let fuse: Fuse<SearchableMessage>;
@@ -40,6 +40,15 @@ export function readConversations(filePath: string): Conversation[] {
   return data;
 }
 
+export function findMostRecentMessage(
+  filePath: string
+): SearchableMessage | undefined {
+  const conversations = readConversations(filePath);
+  const allMessages = flattenConversations(conversations);
+  const sortedMessages = allMessages.sort((a, b) => b.timestamp - a.timestamp);
+  return sortedMessages[0];
+}
+
 export function searchAndProvideContext(
   filePath: string,
   conversations: Conversation[],
@@ -47,17 +56,24 @@ export function searchAndProvideContext(
   contextSize = 2
 ): unknown[] {
   const fuseResults = searchFile(filePath, searchTerm);
-
   // Group the results by conversation ID
   const groupedResults: {
-    [conversationId: string]: { item: SearchableMessage; score: number }[];
+    [conversationId: string]: {
+      item: SearchableMessage;
+      score: number;
+      matches: readonly FuseResultMatch[];
+    }[];
   } = {};
-  fuseResults.forEach(({ item: matchedMessage, score }) => {
+  fuseResults.forEach(({ item: matchedMessage, score, matches }) => {
     const conversationId = matchedMessage.conversationId;
     if (!groupedResults[conversationId]) {
       groupedResults[conversationId] = [];
     }
-    groupedResults[conversationId].push({ item: matchedMessage, score });
+    groupedResults[conversationId].push({
+      item: matchedMessage,
+      score,
+      matches,
+    });
   });
 
   // Sort the grouped results by score (lower is better)
@@ -73,6 +89,7 @@ export function searchAndProvideContext(
       item: SearchableMessage;
       context: string[];
       score: number;
+      matches: readonly FuseResultMatch[];
     }[];
   }[] = [];
 
@@ -85,7 +102,8 @@ export function searchAndProvideContext(
       item: SearchableMessage;
       context: string[];
       score: number;
-    }[] = group.map(({ item, score }) => {
+      matches: readonly FuseResultMatch[];
+    }[] = group.map(({ item, score, matches }) => {
       const node = conversation.mapping[item.nodeId];
       const allNodes = Object.values(conversation.mapping);
       const nodeIndex = allNodes.findIndex((n) => n.id === node.id);
@@ -99,6 +117,7 @@ export function searchAndProvideContext(
         item,
         context: contextMessages,
         score,
+        matches,
       };
     });
 
