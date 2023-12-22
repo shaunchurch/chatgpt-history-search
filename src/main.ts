@@ -16,7 +16,7 @@ if (require("electron-squirrel-startup")) {
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
-    width: 1300,
+    width: 900,
     height: 900,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -65,18 +65,23 @@ app.on("activate", () => {
 });
 
 // ChatGPT History Search
-
 let filePath = "";
 
 // clear the stored file path since we can't do it in the ui yet
 // store.set("conversationsFilePath", null);
 
 ipcMain.on("load-file", async (event) => {
+  const fileResponse = await openFileDialog();
+  filePath = fileResponse.filePaths[0];
+  store.set("conversationsFilePath", filePath);
+});
+
+ipcMain.on("load-file-save", async (event) => {
   const storedFilePath = store.get("conversationsFilePath") as string;
   if (!storedFilePath) {
-    const fileResponse = await openFileDialog();
-    filePath = fileResponse.filePaths[0];
-    store.set("conversationsFilePath", filePath);
+    // const fileResponse = await openFileDialog();
+    // filePath = fileResponse.filePaths[0];
+    // store.set("conversationsFilePath", filePath);
   } else {
     filePath = storedFilePath;
   }
@@ -95,3 +100,5 @@ ipcMain.on("search-file", async (event, searchTerm) => {
   );
   event.reply("search-results", contextualResults);
 });
+
+ipcMain.emit("load-file-save");
