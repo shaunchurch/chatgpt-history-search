@@ -44,16 +44,11 @@ export function ResultCard({ result }: ResultProps) {
           <span className="text-sm text-gray-500 ml-2">
             {result.contextualItems.length} messages
           </span>
-
           {/* how long ago? */}
           <span className="text-sm text-gray-500 ml-2">
             {result.contextualItems[0].item.createTime
               ? toRelativeDate(
-                  new Date(
-                    result.contextualItems.filter(
-                      (contextualItem) => contextualItem.item.messageText
-                    )[0].item.createTime * 1000
-                  )
+                  new Date(result.contextualItems[0].item.createTime * 1000)
                 )
               : null}
           </span>
