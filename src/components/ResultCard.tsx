@@ -30,21 +30,42 @@ export function ResultCard({ result }: ResultProps) {
 
   return (
     <div className="my-4 px-4 rounded shadow-md tabular-nums">
-      <button
-        className="text-xl font-semibold"
-        onClick={() =>
-          handleOpenUrl(`https://chat.openai.com/c/${result.conversationId}`)
-        }
-      >
-        {result.conversationTitle}
-      </button>
+      <header className="flex">
+        <button
+          className="text-xl font-semibold"
+          onClick={() =>
+            handleOpenUrl(`https://chat.openai.com/c/${result.conversationId}`)
+          }
+        >
+          {result.conversationTitle}
+        </button>
+
+        <div className="ml-auto">
+          <span className="text-sm text-gray-500 ml-2">
+            {result.contextualItems.length} messages
+          </span>
+
+          {/* how long ago? */}
+          <span className="text-sm text-gray-500 ml-2">
+            {result.contextualItems[0].item.createTime
+              ? toRelativeDate(
+                  new Date(
+                    result.contextualItems.filter(
+                      (contextualItem) => contextualItem.item.messageText
+                    )[0].item.createTime * 1000
+                  )
+                )
+              : null}
+          </span>
+        </div>
+      </header>
 
       {result.contextualItems
         .filter((contextualItem) => contextualItem.item.messageText)
-        .slice(0, 4)
+        .slice(0, 3)
         .map((contextualItem, index) => (
           <div key={index} className="mt-0">
-            <div className="ml-auto flex space-x-4">
+            <div className="ml-auto flex space-x-2">
               <span className="text-zinc-500">
                 {(
                   100 -
@@ -52,7 +73,7 @@ export function ResultCard({ result }: ResultProps) {
                 ).toFixed(0)}
                 %
               </span>
-              <time
+              {/* <time
                 className="text-zinc-700 w-28"
                 title={new Date(
                   contextualItem.item.createTime * 1000
@@ -63,7 +84,7 @@ export function ResultCard({ result }: ResultProps) {
                       new Date(contextualItem.item.createTime * 1000)
                     )
                   : null}{" "}
-              </time>
+              </time> */}
               <span className="text-zinc-400">
                 {contextualItem.item.messageText.slice(0, 140) || ""}...
               </span>

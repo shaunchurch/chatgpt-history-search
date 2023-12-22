@@ -13,3 +13,8 @@ body {
   margin: auto;
   background: #111;
 }
+
+.drag-handle {
+  -webkit-app-select: none;
+  -webkit-app-region: drag;
+}

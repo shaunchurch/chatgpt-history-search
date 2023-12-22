@@ -4,10 +4,12 @@ import { SearchForm } from "./components/SearchForm";
 
 export function App() {
   return (
-    <div className="bg-zinc-900 text-zinc-100">
-      <header className="pl-20 p-3 bg-black">🔎 ChatGPT History Search</header>
-      <LoadButton />
+    <>
+      <header className="pl-20 p-3 drag-handle text-center bg-blue-950">
+        ChatGPT History Search
+      </header>
       <SearchForm />
-    </div>
+      <LoadButton />
+    </>
   );
 }

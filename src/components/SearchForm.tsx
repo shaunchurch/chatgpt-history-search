@@ -24,15 +24,15 @@ export function SearchForm() {
 
   return (
     <>
-      <form onSubmit={handleSearchSubmit}>
+      <form onSubmit={handleSearchSubmit} className="flex flex-row">
         <input
           type="search"
           name="query"
           id="queryInput"
           ref={inputRef}
-          className="px-2 py-1 border border-zinc-600 rounded m-2 bg-zinc-900"
+          className="px-4 py-3 border border-zinc-600 rounded-xl m-2 bg-zinc-900 w-10/12"
         />
-        <button className="px-2 py-1 border border-zinc-600 rounded m-2">
+        <button className="px-2 py-1 border border-zinc-600 rounded m-2 w-2/12">
           Search
         </button>
       </form>
