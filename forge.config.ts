@@ -8,6 +8,7 @@ import { VitePlugin } from "@electron-forge/plugin-vite";
 const config: ForgeConfig = {
   packagerConfig: {
     icon: "src/assets/icon",
+    executableName: "ai-chat-manager",
   },
   rebuildConfig: {},
   makers: [
