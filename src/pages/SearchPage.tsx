@@ -1,7 +1,7 @@
 import React from "react";
-import { SearchForm } from "./SearchForm";
-import { SearchResults } from "./SearchResults";
-import { LoadButton } from "./LoadButton";
+import { SearchForm } from "../components/SearchForm";
+import { SearchResults } from "../components/SearchResults";
+import { LoadButton } from "../components/LoadButton";
 
 export function SearchPage() {
   return (
