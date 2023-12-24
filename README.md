@@ -1,8 +1,6 @@
-# AppName
+# AI Chat Manager - [Download Latest Release](https://github.com/shaunchurch/chatgpt-history-search/releases)
 
-## Description
-
-Chat History Search is a tool for searching and managing your ChatGPT conversation history. It allows users to revisit past interactions, gain insights, and explore their dialogue trends over time.
+AI Chat Manager is a tool for searching and managing your ChatGPT conversation history. It allows users to revisit past interactions, gain insights, and explore their dialogue trends over time.
 
 ## Features
 
