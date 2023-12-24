@@ -13,7 +13,7 @@ export function SearchForm() {
   return (
     <form
       onSubmit={handleSearchSubmit}
-      className="flex flex-row p-4 space-x-4 bg-zinc-950 w-full"
+      className="flex flex-row p-4 space-x-4 bg-zinc-950 w-full border-b border-zinc-800"
     >
       <input
         type="search"
