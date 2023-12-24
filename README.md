@@ -22,7 +22,7 @@ To download your ChatGPT history:
 3. Look for a section named 'Data Export' or 'Download History'.
 4. Follow the prompts to download your conversation history from the email they send you.
 
-### Installation on MacOS
+### Installation on macOS
 
 Since the app is from an unverified developer (for now), you'll need to follow these steps to install it:
 
