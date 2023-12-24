@@ -70,24 +70,20 @@ let filePath = "";
 // clear the stored file path since we can't do it in the ui yet
 // store.set("conversationsFilePath", null);
 
-ipcMain.on("load-file", async (event) => {
+ipcMain.on("load-file", async () => {
   const fileResponse = await openFileDialog();
   filePath = fileResponse.filePaths[0];
   store.set("conversationsFilePath", filePath);
 });
 
-ipcMain.on("load-file-save", async (event) => {
+ipcMain.on("load-file-save", async () => {
   const storedFilePath = store.get("conversationsFilePath") as string;
-  if (!storedFilePath) {
-    // const fileResponse = await openFileDialog();
-    // filePath = fileResponse.filePaths[0];
-    // store.set("conversationsFilePath", filePath);
-  } else {
+  if (storedFilePath) {
     filePath = storedFilePath;
   }
 });
 
-ipcMain.on("open-external", (event, url) => {
+ipcMain.on("open-external", (_, url) => {
   shell.openExternal(url);
 });
 
