@@ -32,23 +32,21 @@ Since the app is from an unverified developer (for now), you'll need to follow t
 
 2. **Allow Installation**:
 
-For macOS:
-
-- Locate the downloaded `.dmg` file in Finder.
-- Control-click the app icon, then choose `Open` from the shortcut menu.
-- Click `Open`.
+   - Locate the downloaded `.dmg` file in Finder.
+   - Control-click the app icon, then choose `Open` from the shortcut menu.
+   - Click `Open`.
 
 3. **Security & Privacy Settings**:
    - If your Mac is set to allow apps only from the App Store, you might see a warning that the app was not downloaded from the App Store.
    - If you see this warning, go to `System Preferences` > `Security & Privacy`, then click `General`.
    - Click the lock and enter your password to make changes.
-   - You should see a message about AppName being blocked. Click `Open Anyway` to confirm your intent to open or install the app.
+   - You should see a message about AI Chat Manager being blocked. Click `Open Anyway` to confirm your intent to open or install the app.
      note: The releases are built here on Github, from the code on Github. The code you see in the repo is the code you run.
 
 ### Usage
 
 1. **Launching the App**:
-   - Open AppName from your Applications folder or Spotlight search.
+   - Open AI Chat Manager from your Applications folder or Spotlight search.
 2. **Importing Data**:
 
    - Upon first launch, the app will prompt you to import your ChatGPT conversation history.
@@ -73,12 +71,10 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-Your Name – [@shaunchurch](https://x.com/shaunchurch)
+- [@shaunchurch](https://x.com/shaunchurch)
 
 Project Link: [https://github.com/shaunchurch/chatgpt-history-search](https://github.com/shaunchurch/chatgpt-history-search)
 
 ## Acknowledgements
 
 - [OpenAI](https://openai.com/)
-- [Your Guide or Reference Here]
-- [Other Community or Team Member]
